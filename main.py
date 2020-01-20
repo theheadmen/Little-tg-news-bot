@@ -9,8 +9,8 @@ def echo(bot, update):
     update.message.reply_text(update.message.text)
 
 
-def error(bot, update, errorMsg):
-    logger.warning('Update "%s" caused error "%s"' % (update, errorMsg))
+def error(bot, update, error):
+    logger.warning('Update "%s" caused error "%s"' % (update, error))
 
 
 def getDtfInfo(bot, update):
