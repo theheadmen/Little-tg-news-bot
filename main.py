@@ -6,11 +6,11 @@ import logging
 
 
 def echo(bot, update):
-    update.message.reply_text(update.message.text)
+    bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
 
 
-def error(bot, update, error):
-    logger.warning('Update "%s" caused error "%s"' % (update, error))
+def error(bot, update):
+    logger.warning('Update "%s" caused error "%s"', bot, update.error)
 
 
 def getDtfInfo(bot, update):
@@ -32,7 +32,7 @@ def getDtfInfo(bot, update):
         # print(divHref['href'])
         resStr += titleText + "/n" + divHref['href'] + "/n"
 
-    update.message.reply_text(resStr)
+    bot.send_message(chat_id=update.message.chat_id, text=resStr)
 
 
 def getNPlusInfo(bot, update):
@@ -51,7 +51,7 @@ def getNPlusInfo(bot, update):
             # print("https://nplus1.ru" + divHref['href'])
             resStr += titleText + "/n" + "https://nplus1.ru" + divHref['href'] + "/n"
 
-    update.message.reply_text(resStr)
+    bot.send_message(chat_id=update.message.chat_id, text=resStr)
 
 
 # Enable logging
@@ -61,7 +61,7 @@ logger = logging.getLogger(__name__)
 
 def main():
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater(os.environ["TG_KEY"], use_context=True)
+    updater = Updater(os.environ["TG_KEY"])
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
