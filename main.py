@@ -30,7 +30,7 @@ def getDtfInfo(bot, update):
         # print(titleText)
         divHref = div.find("a", {"class": "content-feed__link"})
         # print(divHref['href'])
-        resStr += titleText + "/n" + divHref['href'] + "/n"
+        resStr += titleText + "\n" + divHref['href'] + "\n"
 
     bot.send_message(chat_id=update.message.chat_id, text=resStr)
 
@@ -49,7 +49,7 @@ def getNPlusInfo(bot, update):
             # print(titleText)
             divHref = art.find("a")
             # print("https://nplus1.ru" + divHref['href'])
-            resStr += titleText + "/n" + "https://nplus1.ru" + divHref['href'] + "/n"
+            resStr += titleText + "\n" + "https://nplus1.ru" + divHref['href'] + "\n"
 
     bot.send_message(chat_id=update.message.chat_id, text=resStr)
 
