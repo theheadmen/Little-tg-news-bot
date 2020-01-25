@@ -14,44 +14,52 @@ def error(bot, update):
 
 
 def getDtfInfo(bot, update):
-    resp = req.get("https://dtf.ru/")
-    soup = BeautifulSoup(resp.text, 'lxml')
+    try:
+        resp = req.get("https://dtf.ru/")
+        soup = BeautifulSoup(resp.text, 'lxml')
 
-    resStr: str = ""
+        resStr: str = ""
 
-    mySpan = soup.findAll("span", {"class": "content-editorial-tick"})
-    for span in mySpan:
-        span.decompose()
+        mySpan = soup.findAll("span", {"class": "content-editorial-tick"})
+        for span in mySpan:
+            span.decompose()
 
-    myDivs = soup.findAll("div", {"class": "feed__item"})
-    for div in myDivs:
-        divTitle = div.find("h2", {"class": "content-header__title"})
-        titleText = divTitle.text.strip()
-        # print(titleText)
-        divHref = div.find("a", {"class": "content-feed__link"})
-        # print(divHref['href'])
-        resStr += titleText + "\n" + divHref['href'] + "\n"
+        myDivs = soup.findAll("div", {"class": "feed__item"})
+        for div in myDivs:
+            divTitle = div.find("h2", {"class": "content-header__title"})
+            titleText = divTitle.text.strip()
+            # print(titleText)
+            divHref = div.find("a", {"class": "content-feed__link"})
+            # print(divHref['href'])
+            resStr += titleText + "\n" + divHref['href'] + "\n"
 
-    bot.send_message(chat_id=update.message.chat_id, text=resStr)
+        bot.send_message(chat_id=update.message.chat_id, text=resStr)
+    except BaseException as baseError:
+        logger.warning('dtfInfo "%s" caused error "%s"', bot, baseError)
+        bot.send_message(chat_id=update.message.chat_id, text='Some error happen')
 
 
 def getNPlusInfo(bot, update):
-    resp = req.get("https://nplus1.ru/")
-    soup = BeautifulSoup(resp.text, 'lxml')
+    try:
+        resp = req.get("https://nplus1.ru/")
+        soup = BeautifulSoup(resp.text, 'lxml')
 
-    resStr = ""
+        resStr = ""
 
-    myArts = soup.findAll("article", {"class": "item"})
-    for art in myArts:
-        divTitle = art.find("h3")
-        if divTitle is not None:
-            titleText = divTitle.text.strip()
-            # print(titleText)
-            divHref = art.find("a")
-            # print("https://nplus1.ru" + divHref['href'])
-            resStr += titleText + "\n" + "https://nplus1.ru" + divHref['href'] + "\n"
+        myArts = soup.findAll("article", {"class": "item"})
+        for art in myArts:
+            divTitle = art.find("h3")
+            if divTitle is not None:
+                titleText = divTitle.text.strip()
+                # print(titleText)
+                divHref = art.find("a")
+                # print("https://nplus1.ru" + divHref['href'])
+                resStr += titleText + "\n" + "https://nplus1.ru" + divHref['href'] + "\n"
 
-    bot.send_message(chat_id=update.message.chat_id, text=resStr)
+        bot.send_message(chat_id=update.message.chat_id, text=resStr)
+    except BaseException as baseError:
+        logger.warning('nPlus "%s" caused error "%s"', bot, baseError)
+        bot.send_message(chat_id=update.message.chat_id, text='Some error happen')
 
 
 # Enable logging
